@@ -56,46 +56,74 @@ extension ViewController {
     
     //Prepare for Jump
     @objc func touchDown() {
-        print("touchDown")
         startTime = Date.now
-//        print("rotation: ", self.personNode.presentation.rotation)
 
     }
     
     
     //Start to Jump
     @objc func touchUp() {
-        print("touchUp")
         let duration = Date().timeIntervalSince(startTime)
-        print(duration)
         
         let d = Float(duration)
         personPlatform.node.physicsBody?.type = .dynamic
         var xScale: Float
         var zScale: Float
         if jumpDir == .x {
-            xScale = -1
+            xScale = 1
             zScale = 0
         } else {
             xScale = 0
             zScale = 1
         }
+        
+        //Jump
         personPlatform.node.physicsBody?.isAffectedByGravity = true
         personPlatform.node.physicsBody?.applyForce(SCNVector3(x: 0.5 * d * xScale, y: 0.5, z: 0.5 * d * zScale), asImpulse: true)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            //Stop Jump
             self.personPlatform.node.physicsBody?.type = .kinematic
             self.personPlatform.node.physicsBody?.isAffectedByGravity = false
-            print(self.personPlatform.node.presentation.worldPosition.y)
-            var pos = self.personPlatform.node.presentation.worldPosition
             
+            //Adjust Position (Due to the delay of applying Inpulse on the object)
+            var pos = self.personPlatform.node.presentation.worldPosition
             pos.y = self.constantY
             self.personPlatform.node.physicsBody?.clearAllForces()
             self.personPlatform.node.runAction(SCNAction.move(to: pos, duration: 0.3))
             self.personPlatform.node.runAction(SCNAction.rotateTo(x: 0, y: 0, z: 0, duration: 0.5))
-//            print("rotation: ", self.personNode.presentation.rotation)
             
-            self.nowPlatform = self.nxtPlatform
-            self.nxtPlatform = self.addNewPlatform(afterPerson: self.personPlatform)
+            if self.shouldFail() {
+                DispatchQueue.main.async {
+                    let alert = UIAlertController(title: "失败", message: "失败", preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK", style: .default)
+                    alert.addAction(okAction)
+                    self.present(alert, animated: true)
+                }
+            } else {
+                self.nowPlatform = self.nxtPlatform
+                self.nxtPlatform = self.addNewPlatform(afterPerson: self.personPlatform)
+            }
+            
+        }
+    }
+    
+    func shouldFail() -> Bool {
+        let r1 = personPlatform.radius
+        let r2 = nxtPlatform.radius
+        
+        var dis: Float
+        if jumpDir == .x {
+            dis = abs(personPlatform.node.presentation.position.x - nxtPlatform.node.presentation.position.x)
+        } else {
+            dis = abs(personPlatform.node.presentation.position.z - nxtPlatform.node.presentation.position.z)
+        }
+        
+        if dis > r1 / 2 + r2 {
+            personPlatform.node.physicsBody?.type = .dynamic
+            personPlatform.node.physicsBody?.isAffectedByGravity = true
+            return true
+        } else {
+            return false
         }
     }
 }

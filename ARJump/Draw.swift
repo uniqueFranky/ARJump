@@ -117,7 +117,7 @@ extension ViewController {
         var pos = last.node.presentation.worldPosition
         if dir == 1 {
             jumpDir = .x
-            pos.x -= dis
+            pos.x += dis
         } else {
             jumpDir = .z
             pos.z += dis
