@@ -30,7 +30,7 @@ extension ViewController {
         personNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(node: personNode))
         personNode.physicsBody?.restitution = 0
         
-        return Platform(with: personNode, ofRadius: 0.015)
+        return Platform(with: personNode, ofRadius: 0.015, ofHeight: 0.025 + 0.015 + 0.025 + 0.025 / 2)
     }
     
     func drawCube(withLen len: CGFloat, ofColor color: UIColor) -> Platform {
@@ -40,7 +40,7 @@ extension ViewController {
         cubeNode.geometry?.materials = [material]
 //        cubeNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(geometry: cubeNode.geometry!))
 //        cubeNode.physicsBody?.categoryBitMask = 1
-        return Platform(with: cubeNode, ofRadius: Float(len) / 2)
+        return Platform(with: cubeNode, ofRadius: Float(len) / 2, ofHeight: Float(len))
     }
     
     func drawCylinder(withRadius r: CGFloat, height h: CGFloat, ofColor color: UIColor) -> Platform {
@@ -50,7 +50,7 @@ extension ViewController {
         cylNode.geometry?.materials = [material]
 //        cylNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(geometry: cylNode.geometry!))
 //        cylNode.physicsBody?.categoryBitMask = 2
-        return Platform(with: cylNode, ofRadius: Float(r))
+        return Platform(with: cylNode, ofRadius: Float(r), ofHeight: Float(h))
     }
     
     
@@ -132,9 +132,11 @@ extension ViewController {
 struct Platform {
     let node: SCNNode
     let radius: Float
+    let height: Float
     
-    init(with node: SCNNode, ofRadius r: Float) {
+    init(with node: SCNNode, ofRadius r: Float, ofHeight h: Float) {
         self.node = node
         self.radius = r
+        self.height = h
     }
 }

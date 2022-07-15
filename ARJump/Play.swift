@@ -16,6 +16,7 @@ extension ViewController {
             return
         }
         
+        //If Tapped on a Plane
         let tapLocation = tapRecognizer.location(in: sceneView)
         let castQuery = sceneView.raycastQuery(from: tapLocation, allowing: .existingPlaneGeometry, alignment: .horizontal)!
         let results = sceneView.session.raycast(castQuery)
@@ -27,6 +28,7 @@ extension ViewController {
         //Game Starts
         started = true
         sceneView.gestureRecognizers = []
+        configureScene()
         pressBtn.isHidden = false
         pressBtn.addTarget(self, action: #selector(touchDown), for: .touchDown)
         pressBtn.addTarget(self, action: #selector(touchUp), for: .touchUpInside)
@@ -49,7 +51,7 @@ extension ViewController {
             print("kinetic")
             self.nxtPlatform = self.addNewPlatform(afterPlatform: cubePlatform)
             self.nowPlatform = cubePlatform
-            self.constantY = self.personPlatform.node.presentation.worldPosition.y
+//            self.constantY = self.personPlatform.node.presentation.worldPosition.y
 
         }
     }
@@ -87,15 +89,31 @@ extension ViewController {
             
             //Adjust Position (Due to the delay of applying Inpulse on the object)
             var pos = self.personPlatform.node.presentation.worldPosition
-            pos.y = self.constantY
+            pos.y = self.nxtPlatform.node.presentation.worldPosition.y
+            pos.y += self.personPlatform.height
             self.personPlatform.node.physicsBody?.clearAllForces()
             self.personPlatform.node.runAction(SCNAction.move(to: pos, duration: 0.3))
             self.personPlatform.node.runAction(SCNAction.rotateTo(x: 0, y: 0, z: 0, duration: 0.5))
             
+            if self.shouldRemain() {
+                return
+            }
+            
             if self.shouldFail() {
                 DispatchQueue.main.async {
-                    let alert = UIAlertController(title: "失败", message: "失败", preferredStyle: .alert)
-                    let okAction = UIAlertAction(title: "OK", style: .default)
+                    let alert = UIAlertController(title: "失败", message: "您掉了下去！\n", preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "再玩一次", style: .default) { _ in
+                        //Restart the Game
+                        self.started = false
+                        self.configureTapRecognizer()
+                        self.configureSceneView()
+                        self.configureScene()
+                        self.configurePressBtn()
+                        let configuration = ARWorldTrackingConfiguration()
+                        //detect horizontal planes
+                        configuration.planeDetection = [.horizontal]
+                        self.sceneView.session.run(configuration, options: [.removeExistingAnchors])
+                    }
                     alert.addAction(okAction)
                     self.present(alert, animated: true)
                 }
@@ -124,6 +142,24 @@ extension ViewController {
             return true
         } else {
             return false
+        }
+    }
+    
+    func shouldRemain() -> Bool {
+        let r1 = personPlatform.radius
+        let r2 = nowPlatform.radius
+        
+        var dis: Float
+        if jumpDir == .x {
+            dis = abs(personPlatform.node.presentation.position.x - nowPlatform.node.presentation.position.x)
+        } else {
+            dis = abs(personPlatform.node.presentation.position.z - nowPlatform.node.presentation.position.z)
+        }
+        
+        if dis > r1 / 2 + r2 {
+            return false
+        } else {
+            return true
         }
     }
 }

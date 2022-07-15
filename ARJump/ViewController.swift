@@ -17,15 +17,32 @@ enum JumpDir: Int {
 class ViewController: UIViewController {
 
     @IBOutlet var sceneView: ARSCNView!
+    
+    //pressBtn: Take Up the Whole Screen, Detecting the Duration of Press, in order to
+    //          calculate the distance for the person to travel
     let pressBtn = UIButton()
+    
+    //tapRecognizer: For HitTest(RayCast), to select a point to start game
     let tapRecognizer = UITapGestureRecognizer()
+    
+    //startTime: Record the timestamp when press begins
     var startTime: Date!
+    
+    //started: Marks whether game has started
     var started = false
+    
+    //jumpDir: Marks the direction for jumping
     var jumpDir: JumpDir!
+    
+    //nowPlatform: The current platform on which the person is standing
     var nowPlatform: Platform!
+    
+    //nxtPlatform: The next platform on which the person is to stand
     var nxtPlatform: Platform!
+    
+    //personPlatform: The platform representing the person ( just see it as a platform or so )
     var personPlatform: Platform!
-    var constantY: Float!
+//    var constantY: Float!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,9 +86,7 @@ extension ViewController {
     func configureScene() {
         let scene = SCNScene()
         sceneView.scene = scene
-        sceneView.scene.physicsWorld.contactDelegate = self
         sceneView.scene.physicsWorld.gravity = SCNVector3(x: 0, y: -1, z: 0)
-
     }
     
     func configureTapRecognizer() {
@@ -106,9 +121,9 @@ extension ViewController: ARSCNViewDelegate {
             meshGeometry.update(from: planeAchor.geometry)
             let meshNode = SCNNode(geometry: meshGeometry)
             let material = SCNMaterial()
-            material.diffuse.contents = UIColor.blue
+            material.diffuse.contents = UIColor.purple
             meshNode.geometry?.materials = [material]
-            meshNode.opacity = 0.5
+            meshNode.opacity = 0.8
                 
             node.addChildNode(meshNode)
             
@@ -135,12 +150,4 @@ extension ViewController: ARSCNViewDelegate {
     }
 }
 
-
-
-extension ViewController: SCNPhysicsContactDelegate {
-    func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
-        print("Contact!!!")
-    }
-    
-}
 
