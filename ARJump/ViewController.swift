@@ -22,6 +22,11 @@ class ViewController: UIViewController {
     var startTime: Date!
     var started = false
     var jumpDir: JumpDir!
+    var nowPlatform: Platform!
+    var nxtPlatform: Platform!
+    var personPlatform: Platform!
+    var constantY: Float!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -84,60 +89,6 @@ extension ViewController {
     }
 }
 
-extension ViewController {
-    @objc func selectPlane() {
-        
-        if started {
-            return
-        }
-        
-        let tapLocation = tapRecognizer.location(in: sceneView)
-        let castQuery = sceneView.raycastQuery(from: tapLocation, allowing: .existingPlaneGeometry, alignment: .horizontal)!
-        let results = sceneView.session.raycast(castQuery)
-        guard let result = results.first else {
-            return
-        }
-        
-        
-        //Game Starts
-        started = true
-        sceneView.gestureRecognizers = []
-        pressBtn.isHidden = false
-        pressBtn.addTarget(self, action: #selector(touchDown), for: .touchDown)
-        pressBtn.addTarget(self, action: #selector(touchUp), for: .touchUpInside)
-        
-        let url = Bundle.main.url(forResource: "test", withExtension: "scn", subdirectory: "art.scnassets")!
-        let scn = try! SCNScene(url: url)
-        let cubeNode = drawCube(withLen: 0.1, ofColor: .black)
-        cubeNode.physicsBody = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(geometry: cubeNode.geometry!))
-
-        sceneView.scene.rootNode.addChildNode(cubeNode)
-        var pos = SCNVector3(x: result.worldTransform.columns.3.x, y: result.worldTransform.columns.3.y, z: result.worldTransform.columns.3.z)
-        cubeNode.position = pos
-        
-        pos.y += 0.3
-        let personNode = drawPerson()
-        sceneView.scene.rootNode.addChildNode(personNode)
-        personNode.position = pos
-        personNode.physicsBody?.isAffectedByGravity = false
-        pos.y -= 0.225
-        personNode.runAction(SCNAction.move(to: pos, duration: 0.5)) {
-            personNode.physicsBody?.type = .kinematic
-            print("kinetic")
-            self.addNewPlatform(after: cubeNode)
-        }
-    }
-    
-    @objc func touchDown() {
-        print("touchDown")
-        startTime = Date.now
-    }
-    @objc func touchUp() {
-        print("touchUp")
-        let duration = Date().timeIntervalSince(startTime)
-        print(duration)
-    }
-}
 
 //ARSCNView Delegate
 extension ViewController: ARSCNViewDelegate {
