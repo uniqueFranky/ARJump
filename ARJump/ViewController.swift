@@ -26,7 +26,7 @@ class ViewController: UIViewController {
     let tapRecognizer = UITapGestureRecognizer()
     
     //startTime: Record the timestamp when press begins
-    var startTime: Date!
+    var startTime: Double!
     
     //started: Marks whether game has started
     var started = false
@@ -43,6 +43,7 @@ class ViewController: UIViewController {
     //personPlatform: The platform representing the person ( just see it as a platform or so )
     var personPlatform: Platform!
 //    var constantY: Float!
+    var materialFrom: SCNMaterial!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +74,7 @@ class ViewController: UIViewController {
 }
 
 
-//Configure Functions
+//Configuration Functions
 extension ViewController {
     func configureSceneView() {
         sceneView.delegate = self
@@ -84,9 +85,16 @@ extension ViewController {
     }
     
     func configureScene() {
-        let scene = SCNScene()
-        sceneView.scene = scene
-        sceneView.scene.physicsWorld.gravity = SCNVector3(x: 0, y: -1, z: 0)
+
+        let url = Bundle.main.url(forResource: "test", withExtension: "scn", subdirectory: "art.scnassets")!
+        let scn = try! SCNScene(url: url)
+        let boxNode = scn.rootNode.childNode(withName: "box", recursively: true)!
+        materialFrom = boxNode.geometry!.materials.first!
+        print(materialFrom)
+        
+//        let scene = SCNScene()
+//        scene.physicsWorld.gravity = SCNVector3(x: 0, y: -1, z: 0)
+        sceneView.scene = scn
     }
     
     func configureTapRecognizer() {
@@ -123,9 +131,12 @@ extension ViewController: ARSCNViewDelegate {
             let material = SCNMaterial()
             material.diffuse.contents = UIColor.purple
             meshNode.geometry?.materials = [material]
-            meshNode.opacity = 0.8
+            meshNode.opacity = 0.6
                 
             node.addChildNode(meshNode)
+            let light = SCNLight()
+            light.type = .ambient
+            light.color = UIColor.white
             
         }
         

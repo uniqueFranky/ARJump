@@ -58,17 +58,17 @@ extension ViewController {
     
     //Prepare for Jump
     @objc func touchDown() {
-        startTime = Date.now
-
+        startTime = Date.timeIntervalSinceReferenceDate
     }
     
     
     //Start to Jump
     @objc func touchUp() {
-        let duration = Date().timeIntervalSince(startTime)
+        let duration = Date.timeIntervalSinceReferenceDate - startTime
         
         let d = Float(duration)
         personPlatform.node.physicsBody?.type = .dynamic
+        print(sceneView.scene.physicsWorld.gravity)
         var xScale: Float
         var zScale: Float
         if jumpDir == .x {

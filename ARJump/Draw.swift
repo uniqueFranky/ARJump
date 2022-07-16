@@ -18,8 +18,22 @@ extension ViewController {
         personNode.addChildNode(headNode)
         personNode.addChildNode(bodyNode)
 
-        let material = SCNMaterial()
-        material.diffuse.contents = UIColor.blue
+        
+        let colors: [UIColor] = [
+            .brown,
+            .black,
+            .darkGray,
+            .label,
+            .blue,
+            .magenta,
+            .orange,
+            .purple,
+            .yellow
+        ]
+        let color = Int.random(in: 0..<colors.count)
+        
+        let material = materialFrom.copy() as! SCNMaterial
+        material.diffuse.contents = colors[color]
 
         headNode.geometry?.materials = [material]
         bodyNode.geometry?.materials = [material]
@@ -29,27 +43,24 @@ extension ViewController {
 
         personNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(node: personNode))
         personNode.physicsBody?.restitution = 0
+        personNode.physicsBody?.mass = 1
         
         return Platform(with: personNode, ofRadius: 0.015, ofHeight: 0.025 + 0.015 + 0.025 + 0.025 / 2)
     }
     
     func drawCube(withLen len: CGFloat, ofColor color: UIColor) -> Platform {
         let cubeNode = SCNNode(geometry: SCNBox(width: len, height: len, length: len, chamferRadius: 0))
-        let material = SCNMaterial()
+        let material = materialFrom.copy() as! SCNMaterial
         material.diffuse.contents = color
         cubeNode.geometry?.materials = [material]
-//        cubeNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(geometry: cubeNode.geometry!))
-//        cubeNode.physicsBody?.categoryBitMask = 1
         return Platform(with: cubeNode, ofRadius: Float(len) / 2, ofHeight: Float(len))
     }
     
     func drawCylinder(withRadius r: CGFloat, height h: CGFloat, ofColor color: UIColor) -> Platform {
         let cylNode = SCNNode(geometry: SCNCylinder(radius: r, height: h))
-        let material = SCNMaterial()
+        let material = materialFrom.copy() as! SCNMaterial
         material.diffuse.contents = color
         cylNode.geometry?.materials = [material]
-//        cylNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(geometry: cylNode.geometry!))
-//        cylNode.physicsBody?.categoryBitMask = 2
         return Platform(with: cylNode, ofRadius: Float(r), ofHeight: Float(h))
     }
     
@@ -109,6 +120,10 @@ extension ViewController {
         let color = Int.random(in: 0..<colors.count)
         var platform: Platform
         if shape == 1 {
+//            let url = Bundle.main.url(forResource: "test", withExtension: ".scn", subdirectory: "art.scnassets")!
+//            let scn = try! SCNScene(url: url)
+//            let cubeNode = scn.rootNode.childNode(withName: "box", recursively: true)!
+//            platform = Platform(with: cubeNode, ofRadius: 0.05, ofHeight: 0.1)
             platform = drawCube(withLen: 0.1, ofColor: colors[color])
         } else {
             platform = drawCylinder(withRadius: 0.05, height: 0.1, ofColor: colors[color])
