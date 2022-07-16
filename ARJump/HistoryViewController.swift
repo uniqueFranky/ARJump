@@ -83,7 +83,7 @@ extension HistoryViewController: UITableViewDataSource {
         let timeBtn = UIButton(type: .system)
         timeBtn.translatesAutoresizingMaskIntoConstraints = false
         timeBtn.backgroundColor = .darkGray
-        timeBtn.addTarget(self, action: #selector(sortByScore), for: .touchUpInside)
+        timeBtn.addTarget(self, action: #selector(sortByTime), for: .touchUpInside)
         timeBtn.setTitle("按时间排序", for: .normal)
         timeBtn.setTitleColor(.white, for: .normal)
         headerView.addSubview(timeBtn)
