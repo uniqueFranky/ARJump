@@ -18,7 +18,7 @@ class ViewController: UIViewController {
 
     @IBOutlet var sceneView: ARSCNView!
     
-    //pressBtn: Take Up the Whole Screen, Detecting the Duration of Press, in order to
+    //pressBtn: Detecting the Duration of Press, in order to
     //          calculate the distance for the person to travel
     let pressBtn = UIButton()
     
@@ -42,8 +42,23 @@ class ViewController: UIViewController {
     
     //personPlatform: The platform representing the person ( just see it as a platform or so )
     var personPlatform: Platform!
-//    var constantY: Float!
+
     var materialFrom: SCNMaterial!
+    var score = 0
+    var currentScore: Int {
+        get {
+            return score
+        }
+        
+        set {
+            score = newValue
+            scoreLabel.text = "当前分数： " + String(score)
+        }
+    }
+    var highestScore = 0
+    let storage = Storage()
+    let historyBtn = UIButton(type: .system)
+    let scoreLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,8 +66,9 @@ class ViewController: UIViewController {
         configureTapRecognizer()
         configureSceneView()
         configureScene()
+        configureHistoryBtn()
         configurePressBtn()
- 
+        configureScoreLabel()
         
     }
     
@@ -78,8 +94,8 @@ class ViewController: UIViewController {
 extension ViewController {
     func configureSceneView() {
         sceneView.delegate = self
-        sceneView.debugOptions = [.showWorldOrigin, .showPhysicsShapes]
-        sceneView.showsStatistics = true
+//        sceneView.debugOptions = [.showFeaturePoints]
+        sceneView.showsStatistics = false
         sceneView.isUserInteractionEnabled = true
 
     }
@@ -106,11 +122,51 @@ extension ViewController {
     
     func configurePressBtn() {
         sceneView.addSubview(pressBtn)
-        pressBtn.frame = sceneView.frame
+        pressBtn.translatesAutoresizingMaskIntoConstraints = false
         pressBtn.backgroundColor = .clear
         pressBtn.isHidden = true
         pressBtn.addTarget(self, action: #selector(touchDown), for: .touchDown)
         pressBtn.addTarget(self, action: #selector(touchUp), for: .touchUpInside)
+        
+        pressBtn.topAnchor.constraint(equalTo: historyBtn.bottomAnchor).isActive = true
+        pressBtn.leadingAnchor.constraint(equalTo: sceneView.leadingAnchor).isActive = true
+        pressBtn.trailingAnchor.constraint(equalTo: sceneView.trailingAnchor).isActive = true
+        pressBtn.bottomAnchor.constraint(equalTo: sceneView.safeAreaLayoutGuide.bottomAnchor).isActive = true
+    }
+    
+    func configureHistoryBtn() {
+        historyBtn.setTitle("排行榜", for: .normal)
+        historyBtn.translatesAutoresizingMaskIntoConstraints = false
+        historyBtn.addTarget(self, action: #selector(showHistory), for: .touchUpInside)
+        historyBtn.backgroundColor = .systemBlue
+        historyBtn.setTitleColor(.white, for: .normal)
+        sceneView.addSubview(historyBtn)
+        
+        
+        historyBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        historyBtn.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        historyBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        historyBtn.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        
+    }
+    
+    @objc func showHistory() {
+        let historyVC = HistoryViewController()
+        historyVC.storage = storage
+        navigationController?.pushViewController(historyVC, animated: true)
+    }
+    
+    func configureScoreLabel() {
+        scoreLabel.text = "当前分数: " + String(currentScore)
+        scoreLabel.font = UIFont.preferredFont(forTextStyle: .headline)
+        scoreLabel.textAlignment = .center
+        sceneView.addSubview(scoreLabel)
+        
+        scoreLabel.translatesAutoresizingMaskIntoConstraints = false
+        scoreLabel.topAnchor.constraint(equalTo: sceneView.safeAreaLayoutGuide.topAnchor).isActive = true
+        scoreLabel.leadingAnchor.constraint(equalTo: sceneView.leadingAnchor).isActive = true
+        scoreLabel.trailingAnchor.constraint(equalTo: historyBtn.leadingAnchor).isActive = true
+        scoreLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
 }
 

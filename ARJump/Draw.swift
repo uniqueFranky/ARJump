@@ -121,10 +121,6 @@ extension ViewController {
         let color = Int.random(in: 0..<colors.count)
         var platform: Platform
         if shape == 1 {
-//            let url = Bundle.main.url(forResource: "test", withExtension: ".scn", subdirectory: "art.scnassets")!
-//            let scn = try! SCNScene(url: url)
-//            let cubeNode = scn.rootNode.childNode(withName: "box", recursively: true)!
-//            platform = Platform(with: cubeNode, ofRadius: 0.05, ofHeight: 0.1)
             platform = drawCube(withLen: 0.1, ofColor: colors[color])
         } else {
             platform = drawCylinder(withRadius: 0.05, height: 0.1, ofColor: colors[color])

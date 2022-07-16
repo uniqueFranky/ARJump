@@ -59,18 +59,22 @@ extension ViewController {
     //Prepare for Jump
     @objc func touchDown() {
         startTime = Date.timeIntervalSinceReferenceDate
+        
+        SCNTransaction.animationDuration = 2
+        personPlatform.node.runAction(SCNAction.move(by: SCNVector3(x: 0, y: -personPlatform.height * 0.2, z: 0), duration: 2))
+        personPlatform.node.scale.y = 0.6
     }
     
     
     //Start to Jump
     @objc func touchUp() {
         let duration = Date.timeIntervalSinceReferenceDate - startTime
-        
+        personPlatform.node.scale.y = 1
+//        personPlatform.node.runAction(SCNAction.move(by: SCNVector3(x: 0, y: personPlatform.height * 0.2, z: 0), duration: 0))
         let d = Float(duration)
         personPlatform.node.physicsBody?.type = .dynamic
-        print(sceneView.scene.physicsWorld.gravity)
-        var xScale: Float
-        var zScale: Float
+        var xScale: Int
+        var zScale: Int
         if jumpDir == .x {
             xScale = 1
             zScale = 0
@@ -81,7 +85,15 @@ extension ViewController {
         
         //Jump
         personPlatform.node.physicsBody?.isAffectedByGravity = true
-        personPlatform.node.physicsBody?.applyForce(SCNVector3(x: 0.5 * d * xScale, y: 0.5, z: 0.5 * d * zScale), asImpulse: true)
+        personPlatform.node.physicsBody?.applyForce(SCNVector3(x: 0.4 * d * Float(xScale), y: 0.5, z: 0.4 * d * Float(zScale)), asImpulse: true)
+        
+        
+            /*
+                Rotation Influences Move, have no solution now.
+             */
+        
+//        personPlatform.node.runAction(SCNAction.rotate(by: CGFloat(Double.pi * 2), around: SCNVector3(x: personPlatform.height / 2 * Float((xScale ^ 1)), y: 0, z: personPlatform.height / 2 * Float((zScale ^ 1))), duration: 1))
+        
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
             //Stop Jump
             self.personPlatform.node.physicsBody?.type = .kinematic
@@ -104,6 +116,13 @@ extension ViewController {
                     let alert = UIAlertController(title: "失败", message: "您掉了下去！\n", preferredStyle: .alert)
                     let okAction = UIAlertAction(title: "再玩一次", style: .default) { _ in
                         //Restart the Game
+//                        if #available(iOS 15, *) {
+//                            self.storage.insertHistory(ofScore: self.currentScore, atTime: Date.now)
+//                        } else {
+//                            // Fallback on earlier versions
+//                        }
+                        self.storage.insertHistory(ofScore: self.currentScore, atTime: Date())
+                        self.currentScore = 0
                         self.started = false
                         self.configureTapRecognizer()
                         self.configureSceneView()
@@ -118,6 +137,8 @@ extension ViewController {
                     self.present(alert, animated: true)
                 }
             } else {
+                self.currentScore += 1
+                self.scoreLabel.setNeedsLayout()
                 self.nowPlatform = self.nxtPlatform
                 self.nxtPlatform = self.addNewPlatform(afterPerson: self.personPlatform)
             }

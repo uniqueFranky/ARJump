@@ -15,6 +15,10 @@
 		3103213D28814BA600D2285D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3103213B28814BA600D2285D /* LaunchScreen.storyboard */; };
 		31032144288150E300D2285D /* Draw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31032143288150E300D2285D /* Draw.swift */; };
 		3103214A2881A11900D2285D /* Play.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310321492881A11900D2285D /* Play.swift */; };
+		31353EA528829CA800EC8268 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 31353EA328829CA800EC8268 /* Model.xcdatamodeld */; };
+		31353ECA2882A06300EC8268 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31353EC92882A06300EC8268 /* Storage.swift */; };
+		31353ECE2882A3A800EC8268 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31353ECD2882A3A800EC8268 /* HistoryViewController.swift */; };
+		31353ED02882B29500EC8268 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31353ECF2882B29500EC8268 /* HistoryTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +31,10 @@
 		3103213C28814BA600D2285D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		31032143288150E300D2285D /* Draw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Draw.swift; sourceTree = "<group>"; };
 		310321492881A11900D2285D /* Play.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Play.swift; sourceTree = "<group>"; };
+		31353EA428829CA800EC8268 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		31353EC92882A06300EC8268 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		31353ECD2882A3A800EC8268 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
+		31353ECF2882B29500EC8268 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,7 +70,11 @@
 				3103213028814BA500D2285D /* AppDelegate.swift */,
 				3103213228814BA500D2285D /* art.scnassets */,
 				3103213428814BA500D2285D /* ViewController.swift */,
+				31353ECD2882A3A800EC8268 /* HistoryViewController.swift */,
+				31353ECF2882B29500EC8268 /* HistoryTableViewCell.swift */,
+				31353EA328829CA800EC8268 /* Model.xcdatamodeld */,
 				310321492881A11900D2285D /* Play.swift */,
+				31353EC92882A06300EC8268 /* Storage.swift */,
 				31032143288150E300D2285D /* Draw.swift */,
 				3103213628814BA500D2285D /* Main.storyboard */,
 				3103213928814BA600D2285D /* Assets.xcassets */,
@@ -145,8 +157,12 @@
 			files = (
 				31032144288150E300D2285D /* Draw.swift in Sources */,
 				3103213528814BA500D2285D /* ViewController.swift in Sources */,
+				31353ED02882B29500EC8268 /* HistoryTableViewCell.swift in Sources */,
+				31353EA528829CA800EC8268 /* Model.xcdatamodeld in Sources */,
 				3103213128814BA500D2285D /* AppDelegate.swift in Sources */,
 				3103214A2881A11900D2285D /* Play.swift in Sources */,
+				31353ECE2882A3A800EC8268 /* HistoryViewController.swift in Sources */,
+				31353ECA2882A06300EC8268 /* Storage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,6 +384,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		31353EA328829CA800EC8268 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				31353EA428829CA800EC8268 /* Model.xcdatamodel */,
+			);
+			currentVersion = 31353EA428829CA800EC8268 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 3103212528814BA500D2285D /* Project object */;
 }
