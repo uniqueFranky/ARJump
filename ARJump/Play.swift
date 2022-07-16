@@ -28,10 +28,11 @@ extension ViewController {
         //Game Starts
         started = true
         sceneView.gestureRecognizers = []
-        configureScene()
+        let url = Bundle.main.url(forResource: "test", withExtension: "scn", subdirectory: "art.scnassets")!
+        let scn = try! SCNScene(url: url)
+        sceneView.scene = scn
+        
         pressBtn.isHidden = false
-        pressBtn.addTarget(self, action: #selector(touchDown), for: .touchDown)
-        pressBtn.addTarget(self, action: #selector(touchUp), for: .touchUpInside)
         
         let cubePlatform = drawCube(withLen: 0.1, ofColor: .black)
 
@@ -51,7 +52,6 @@ extension ViewController {
             print("kinetic")
             self.nxtPlatform = self.addNewPlatform(afterPlatform: cubePlatform)
             self.nowPlatform = cubePlatform
-//            self.constantY = self.personPlatform.node.presentation.worldPosition.y
 
         }
     }

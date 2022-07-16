@@ -34,6 +34,7 @@ extension ViewController {
         
         let material = materialFrom.copy() as! SCNMaterial
         material.diffuse.contents = colors[color]
+        material.diffuse.intensity = 1
 
         headNode.geometry?.materials = [material]
         bodyNode.geometry?.materials = [material]

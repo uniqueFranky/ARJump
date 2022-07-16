@@ -88,13 +88,13 @@ extension ViewController {
 
         let url = Bundle.main.url(forResource: "test", withExtension: "scn", subdirectory: "art.scnassets")!
         let scn = try! SCNScene(url: url)
-        let boxNode = scn.rootNode.childNode(withName: "box", recursively: true)!
-        materialFrom = boxNode.geometry!.materials.first!
-        print(materialFrom)
-        
-//        let scene = SCNScene()
-//        scene.physicsWorld.gravity = SCNVector3(x: 0, y: -1, z: 0)
         sceneView.scene = scn
+
+        
+        let mUrl = Bundle.main.url(forResource: "ship", withExtension: "scn", subdirectory: "art.scnassets")!
+        let mScn = try! SCNScene(url: mUrl)
+        let boxNode = mScn.rootNode.childNode(withName: "box", recursively: true)!
+        materialFrom = boxNode.geometry!.materials.first!
     }
     
     func configureTapRecognizer() {
@@ -109,6 +109,8 @@ extension ViewController {
         pressBtn.frame = sceneView.frame
         pressBtn.backgroundColor = .clear
         pressBtn.isHidden = true
+        pressBtn.addTarget(self, action: #selector(touchDown), for: .touchDown)
+        pressBtn.addTarget(self, action: #selector(touchUp), for: .touchUpInside)
     }
 }
 
@@ -117,7 +119,9 @@ extension ViewController {
 extension ViewController: ARSCNViewDelegate {
     //Detected a Plane
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        
+        if started {
+            return
+        }
         if anchor is ARPlaneAnchor {
             guard let planeAchor = anchor as? ARPlaneAnchor else {
                 return
@@ -144,7 +148,9 @@ extension ViewController: ARSCNViewDelegate {
     
     //Update Plane
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
-        
+        if started {
+            return
+        }
         
         guard let planeAnchor = anchor as? ARPlaneAnchor else {
             print(anchor.transform.columns.3.y)
