@@ -61,6 +61,8 @@ extension ViewController {
     @objc func touchDown() {
         pressPlayer.play()
         startTime = Date.timeIntervalSinceReferenceDate
+        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(pushPrg), userInfo: nil, repeats: true)
+        
         
         SCNTransaction.animationDuration = 2
         personPlatform.node.runAction(SCNAction.move(by: SCNVector3(x: 0, y: -personPlatform.height * 0.2, z: 0), duration: 2))
@@ -70,7 +72,9 @@ extension ViewController {
     
     //Start to Jump
     @objc func touchUp() {
-//        pressPlayer.stop()
+        
+        timer.invalidate()
+        resetPrg()
         let duration = Date.timeIntervalSinceReferenceDate - startTime
         personPlatform.node.scale.y = 1
 //        personPlatform.node.runAction(SCNAction.move(by: SCNVector3(x: 0, y: personPlatform.height * 0.2, z: 0), duration: 0))

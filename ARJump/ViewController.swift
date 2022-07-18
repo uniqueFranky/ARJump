@@ -49,6 +49,11 @@ class ViewController: UIViewController {
     var failPlayer: AVAudioPlayer!
     var fallPlayer: AVAudioPlayer!
     
+    let progressView = UIProgressView(progressViewStyle: .default)
+    //prg: progress
+    var prg = 0.0
+    var timer: Timer!
+    
     var materialFrom: SCNMaterial!
     var score = 0
     var currentScore: Int {
@@ -76,6 +81,7 @@ class ViewController: UIViewController {
         configurePressBtn()
         configureScoreLabel()
         configurePlayers()
+        configureProgressView()
         
     }
     
