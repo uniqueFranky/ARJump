@@ -8,6 +8,7 @@
 import Foundation
 import ARKit
 import SceneKit
+import AVFoundation
 
 extension ViewController {
     @objc func selectPlane() {
@@ -58,6 +59,7 @@ extension ViewController {
     
     //Prepare for Jump
     @objc func touchDown() {
+        pressPlayer.play()
         startTime = Date.timeIntervalSinceReferenceDate
         
         SCNTransaction.animationDuration = 2
@@ -68,6 +70,7 @@ extension ViewController {
     
     //Start to Jump
     @objc func touchUp() {
+//        pressPlayer.stop()
         let duration = Date.timeIntervalSinceReferenceDate - startTime
         personPlatform.node.scale.y = 1
 //        personPlatform.node.runAction(SCNAction.move(by: SCNVector3(x: 0, y: personPlatform.height * 0.2, z: 0), duration: 0))
@@ -113,6 +116,7 @@ extension ViewController {
             
             if self.shouldFail() {
                 DispatchQueue.main.async {
+                    self.failPlayer.play()
                     let alert = UIAlertController(title: "失败", message: "您掉了下去！\n", preferredStyle: .alert)
                     let okAction = UIAlertAction(title: "再玩一次", style: .default) { _ in
                         //Restart the Game
@@ -137,6 +141,7 @@ extension ViewController {
                     self.present(alert, animated: true)
                 }
             } else {
+                self.fallPlayer.play()
                 self.currentScore += 1
                 self.scoreLabel.setNeedsLayout()
                 self.nowPlatform = self.nxtPlatform

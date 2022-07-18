@@ -8,6 +8,7 @@
 import UIKit
 import SceneKit
 import ARKit
+import AVFoundation
 
 enum JumpDir: Int {
     case x
@@ -43,6 +44,11 @@ class ViewController: UIViewController {
     //personPlatform: The platform representing the person ( just see it as a platform or so )
     var personPlatform: Platform!
 
+    var bgmPlayer: AVAudioPlayer!
+    var pressPlayer: AVAudioPlayer!
+    var failPlayer: AVAudioPlayer!
+    var fallPlayer: AVAudioPlayer!
+    
     var materialFrom: SCNMaterial!
     var score = 0
     var currentScore: Int {
@@ -69,6 +75,7 @@ class ViewController: UIViewController {
         configureHistoryBtn()
         configurePressBtn()
         configureScoreLabel()
+        configurePlayers()
         
     }
     
@@ -86,6 +93,22 @@ class ViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         sceneView.session.pause()
+    }
+    
+    func configurePlayers() {
+        var url = Bundle.main.url(forResource: "failsound", withExtension: "mp3")!
+        failPlayer = try! AVAudioPlayer(contentsOf: url)
+        
+        url = Bundle.main.url(forResource: "fallsound", withExtension: "mp3")!
+        fallPlayer = try! AVAudioPlayer(contentsOf: url)
+        
+        url = Bundle.main.url(forResource: "presssound", withExtension: "mp3")!
+        pressPlayer = try! AVAudioPlayer(contentsOf: url)
+        
+        url = Bundle.main.url(forResource: "Graze the Roof", withExtension: "mp3")!
+        bgmPlayer = try! AVAudioPlayer(contentsOf: url)
+        bgmPlayer.numberOfLoops = -1
+        bgmPlayer.play()
     }
 }
 

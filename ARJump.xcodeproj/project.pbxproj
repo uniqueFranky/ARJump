@@ -19,6 +19,10 @@
 		31353ECA2882A06300EC8268 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31353EC92882A06300EC8268 /* Storage.swift */; };
 		31353ECE2882A3A800EC8268 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31353ECD2882A3A800EC8268 /* HistoryViewController.swift */; };
 		31353ED02882B29500EC8268 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31353ECF2882B29500EC8268 /* HistoryTableViewCell.swift */; };
+		31866B0728857E380066E343 /* failsound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31866B0428857E380066E343 /* failsound.mp3 */; };
+		31866B0828857E380066E343 /* fallsound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31866B0528857E380066E343 /* fallsound.mp3 */; };
+		31866B0928857E380066E343 /* presssound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31866B0628857E380066E343 /* presssound.mp3 */; };
+		31866B0B288585930066E343 /* Graze the Roof.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 31866B0A288585930066E343 /* Graze the Roof.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +39,10 @@
 		31353EC92882A06300EC8268 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		31353ECD2882A3A800EC8268 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		31353ECF2882B29500EC8268 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
+		31866B0428857E380066E343 /* failsound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = failsound.mp3; sourceTree = "<group>"; };
+		31866B0528857E380066E343 /* fallsound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fallsound.mp3; sourceTree = "<group>"; };
+		31866B0628857E380066E343 /* presssound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = presssound.mp3; sourceTree = "<group>"; };
+		31866B0A288585930066E343 /* Graze the Roof.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Graze the Roof.mp3"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +83,10 @@
 				3103213628814BA500D2285D /* Main.storyboard */,
 				3103213928814BA600D2285D /* Assets.xcassets */,
 				3103213B28814BA600D2285D /* LaunchScreen.storyboard */,
+				31866B0428857E380066E343 /* failsound.mp3 */,
+				31866B0528857E380066E343 /* fallsound.mp3 */,
+				31866B0628857E380066E343 /* presssound.mp3 */,
+				31866B0A288585930066E343 /* Graze the Roof.mp3 */,
 			);
 			path = ARJump;
 			sourceTree = "<group>";
@@ -173,9 +185,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31866B0B288585930066E343 /* Graze the Roof.mp3 in Resources */,
+				31866B0728857E380066E343 /* failsound.mp3 in Resources */,
+				31866B0828857E380066E343 /* fallsound.mp3 in Resources */,
 				3103213328814BA500D2285D /* art.scnassets in Resources */,
 				3103213D28814BA600D2285D /* LaunchScreen.storyboard in Resources */,
 				3103213A28814BA600D2285D /* Assets.xcassets in Resources */,
+				31866B0928857E380066E343 /* presssound.mp3 in Resources */,
 				3103213828814BA500D2285D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
